@@ -38,22 +38,22 @@ echo -e "\n\n#### Проверяем, что приложение собрало
 echo -e "\n\n### Задача #3. Собираем RPM-пакет"
 cmake --build . --target package
 
-echo -e "\n\n### Задача #4. Создаём локальный репазиторий"
+echo -e "\n\n### Задача #4. Создаём локальный репозиторий"
 mkdir /srv/repo
-echo "#### Копируем наш пакет в репазиторий"
+echo "#### Копируем наш пакет в репозиторий"
 mv hello-*.rpm /srv/repo
 createrepo /srv/repo
 
-echo -e "\n\n### Задача #5. Запускаем простейший сервер для доступа репазитория по сети"
+echo -e "\n\n### Задача #5. Запускаем простейший сервер для доступа репозитория по сети"
 cd /srv
 python3 -m http.server 80 &
 
-echo -e "\n\n### Задача #6. Подключаем репазиторий"
+echo -e "\n\n### Задача #6. Подключаем репозиторий"
 echo -e "[otus]\nname=otus-linux\nbaseurl=http://localhost/repo\ngpgcheck=0\nenabled=1\n" > /etc/yum.repos.d/otus.repo
 yum repolist enabled | grep otus
 yum list | grep otus
 
-echo -e "\n\n### Задача #7. Устанавливаем наше приложение через репазиторий, и проверяем его"
+echo -e "\n\n### Задача #7. Устанавливаем наше приложение через репозиторий, и проверяем его"
 yum install hello -y
 hello
 
